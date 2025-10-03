@@ -37,17 +37,18 @@ Students often hesitate to speak up due to fear. This app breaks down those barr
 **Community Impact:** By prioritizing student well-being and responsible tech use, this app strengthens the connection between students, staff, and families. It turns feedback into action, making schools safer physically and socially.
 
 **Benefits**
+
 _**For Students**_
 - Speak up without fear
 - Feel heard and supported
 - Help shape a safer school
 
-**For Parents**__
+_**For Parents**_
 - Peace of mind
 - Insight into school safety
 - Better conversations with staff
 
-**For the Community**__
+_**For the Community**_
 - More responsive schools
 - Safer environments for all
 - Stronger student–adult communication
