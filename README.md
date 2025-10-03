@@ -14,6 +14,7 @@ This app is built to protect privacy, encourage honesty, and promote positive ch
 When students feel heard, they feel empowered. And when schools listen, they grow stronger. This app helps make that connection possible.
 
 **What technical difficulties did I face?**
+
 When I was building my app, I ran into a bunch of technical challenges—especially with making it look good and easy to use. I had to learn HTML and CSS to design the layout and style everything, which was harder than I expected. Sometimes the buttons wouldn’t line up right, or the colors looked weird, and I had to keep testing and fixing things until it felt clean and simple.
 
 Figuring out the user interface was also tricky. I wanted students to be able to report things quickly without getting confused, so I had to think a lot about where to put things and how to make it all clear.
@@ -23,6 +24,7 @@ I also started learning Java, which was totally new to me. It took time to under
 Even though it was tough, I learned a lot about problem-solving and how to make something that actually helps people. It was really cool to see my ideas turn into a real app.
 
 **What does this app do?**
+
 Empowering student voices for safer schools - Ally - This app gives students a safe, anonymous way to report non-emergency concerns like bullying, unsafe areas, or cleanliness issues without fear of retaliation. 
 
 **App Features: **
@@ -51,6 +53,7 @@ _**For Students**_
 - Stronger student–adult communication
 
 **Here are some ideas for Improving the App:**
+
 - Photo uploads with privacy controls
 - Admin-only portal for reviewing reports
 - Map view to visualize concern locations
