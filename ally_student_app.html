@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ally - School Safety Reporting</title>
+    <style>
+        /* Basic styling that a 10th grader might use */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .tab-button {
+            padding: 12px 25px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #4a5568;
+        }
+
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .report-card {
+            background: #f7fafc;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .report-card h3 {
+            margin: 0 0 10px 0;
+            color: #2d3748;
+        }
+
+        .report-card p {
+            margin: 5px 0;
+            color: #4a5568;
+        }
+
+        .trend-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .trend-high { background: #fed7d7; border-color: #fc8181; }
+        .trend-medium { background: #feebc8; border-color: #f6ad55; }
+        .trend-low { background: #c6f6d5; border-color: #68d391; }
+
+        .resource-section {
+            background: #edf2f7;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .resource-section h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .resource-section ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .resource-section li {
+            margin: 8px 0;
+            color: #4a5568;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .role-selector {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .role-btn {
+            padding: 8px 15px;
+            margin: 0 5px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .role-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .anonymous-notice {
+            background: #e6fffa;
+            border: 2px solid #38b2ac;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .anonymous-notice strong {
+            color: #234e52;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab-button {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="Images/appLogo.png" alt="Ally Logo" style="display:block; margin: 0 auto 20px auto; width: 300px; height: auto;">
+
+        <div class="role-selector">
+            <button class="role-btn active" onclick="switchRole('student')">Student</button>
+            <button class="role-btn" onclick="switchRole('admin')">Administrator</button>
+            <button class="role-btn" onclick="switchRole('counselor')">Counselor</button>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('report')">📝 Report Issue</button>
+            <button class="tab-button" onclick="showTab('trending')">📈 Trending Issues</button>
+            <button class="tab-button" onclick="showTab('resources')">📚 Safety Resources</button>
+            <button class="tab-button" onclick="showTab('admin')" style="display:none;">👥 Review Reports</button>
+        </div>
+
+        <!-- Report Tab -->
+        <div id="report" class="tab-content active">
+            <h2>Anonymous Safety Report</h2>
+            
+            <div class="anonymous-notice">
+                <strong>🔒 Your report is completely anonymous!</strong><br>
+                We never collect names or personal information. Help make our school safer by speaking up.
+            </div>
+
+            <form id="reportForm">
+                <div class="form-group">
+                    <label for="category">What type of issue is this?</label>
+                    <select id="category" required>
+                        <option value="">Select a category...</option>
+                        <option value="Bullying">😠 Bullying</option>
+                        <option value="Unsafe Area">⚠️ Unsafe Area</option>
+                        <option value="Harassment">😔 Harassment</option>
+                        <option value="Facility Issue">🏫 Facility Problem</option>
+                        <option value="Cyber Bullying">💻 Cyber Bullying</option>
+                        <option value="Social Exclusion">😞 Social Exclusion</option>
+                        <option value="Other">❓ Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Where did this happen?</label>
+                    <select id="location" required>
+                        <option value="">Select location...</option>
+                        <option value="Classroom">📖 Classroom</option>
+                        <option value="Hallway">🚪 Hallway</option>
+                        <option value="Cafeteria">🍕 Cafeteria</option>
+                        <option value="Bathroom">🚻 Bathroom</option>
+                        <option value="Library">📚 Library</option>
+                        <option value="Gym">🏃 Gym</option>
+                        <option value="Playground">🏀 Playground</option>
+                        <option value="School Bus">🚌 School Bus</option>
+                        <option value="Online">💻 Online</option>
+                        <option value="Other">📍 Other Location</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="severity">How serious is this issue?</label>
+                    <select id="severity" required>
+                        <option value="">Select severity...</option>
+                        <option value="Low">🟢Low - Minor concern</option>
+                        <option value="Medium">🟡 Medium - Needs attention</option>
+                        <option value="High">🟠 High - Important issue</option>
+                        <option value="Urgent">🔴 Urgent - Serious problem</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Tell us what happened:</label>
+                    <textarea id="description" placeholder="Please describe what happened. The more details you provide, the better we can help..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Anonymous Report</button>
+            </form>
+        </div>
+
+        <!-- Trending Tab -->
+        <div id="trending" class="tab-content">
+            <h2>Current Safety Trends</h2>
+            <p>Here's what our school community is reporting (no names, just trends):</p>
+            
+            <div id="trendsContainer">
+                <!-- Trends will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Resources Tab -->
+        <div id="resources" class="tab-content">
+            <h2>Safety Resources & Tips</h2>
+            
+            <div class="resource-section">
+                <h3>🤝 Dealing with Bullying</h3>
+                <ul>
+                    <li><strong>Tell someone:</strong> Talk to a teacher, counselor, or trusted adult</li>
+                    <li><strong>Don't fight back:</strong> This usually makes things worse</li>
+                    <li><strong>Stay with friends:</strong> Bullies usually target people who are alone</li>
+                    <li><strong>Be confident:</strong> Stand tall, make eye contact, and speak clearly</li>
+                    <li><strong>Keep records:</strong> Write down what happened and when</li>
+                </ul>
+            </div>
+
+            <div class="resource-section">
+                <h3>💻 Online Safety</h3>
+                <ul>
+                    <li><strong>Never share personal info:</strong> Keep your address, phone number, and school private</li>
+                    <li><strong>Use strong passwords:</strong> Make them long and unique for each account</li>
+                    <li><strong>Think before posting:</strong> Once it's online, it's there forever</li>
+                    <li><strong>Report cyberbullying:</strong> Use platform reporting tools and tell adults</li>
+                    <li><strong>Be kind online:</strong> Treat others how you want to be treated</li>
+                </ul>
+            </div>
+
+            <div class="resource-section">
+                <h3>🚨 Emergency Contacts</h3>
+                <ul>
+                    <li><strong>Emergency:</strong> Call 911</li>
+                    <li><strong>School Office:</strong> (555) 123-SAFE</li>
+                    <li><strong>Crisis Text Line:</strong> Text HOME to 741741</li>
+                    <li><strong>Suicide Prevention:</strong> Call 988</li>
+                    <li><strong>Report Tips:</strong> Use Ally app or tell a trusted adult</li>
+                </ul>
+            </div>
+
+            <div class="resource-section">
+                <h3>🧠 Mental Health Tips</h3>
+                <ul>
+                    <li><strong>Talk to someone:</strong> Friends, family, or school counselors are here to help</li>
+                    <li><strong>Take breaks:</strong> Do things you enjoy and take time to relax</li>
+                    <li><strong>Stay active:</strong> Exercise and outdoor time help reduce stress</li>
+                    <li><strong>Get enough sleep:</strong> 8-9 hours helps your brain work better</li>
+                    <li><strong>Ask for help:</strong> It's brave, not weak, to ask for support</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Admin Tab (hidden by default) -->
+        <div id="admin" class="tab-content">
+            <h2 id="adminTitle">Administrator Dashboard</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalReports">0</div>
+                    <div>Total Reports</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="urgentReports">0</div>
+                    <div>Urgent Reports</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="resolvedReports">0</div>
+                    <div>Resolved</div>
+                </div>
+            </div>
+
+            <h3>Recent Reports</h3>
+            <div id="reportsContainer">
+                <!-- Reports will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentRole = 'student';
+        let reports = JSON.parse(localStorage.getItem('safetyReports') || '[]');
+        let reportIdCounter = parseInt(localStorage.getItem('reportCounter') || '1');
+
+        // Tab switching function
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-button');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Load content based on tab
+            if (tabName === 'trending') {
+                loadTrends();
+            } else if (tabName === 'admin') {
+                loadAdminData();
+            }
+        }
+
+        // Role switching
+        function switchRole(role) {
+            currentRole = role;
+            
+            // Update role buttons
+            document.querySelectorAll('.role-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide admin tab
+            const adminTab = document.querySelector('[onclick="showTab(\'admin\')"]');
+            if (role === 'admin' || role === 'counselor') {
+                adminTab.style.display = 'block';
+                document.getElementById('adminTitle').textContent = 
+                    role === 'admin' ? 'Administrator Dashboard' : 'Counselor Dashboard';
+            } else {
+                adminTab.style.display = 'none';
+                // Switch back to report tab if admin tab was active
+                if (document.getElementById('admin').classList.contains('active')) {
+                    showTab('report');
+                }
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('reportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const category = document.getElementById('category').value;
+            const location = document.getElementById('location').value;
+            const severity = document.getElementById('severity').value;
+            const description = document.getElementById('description').value;
+            
+            // Create new report
+            const report = {
+                id: reportIdCounter++,
+                category: category,
+                location: location,
+                severity: severity,
+                description: description,
+                timestamp: new Date().toISOString(),
+                status: 'New'
+            };
+            
+            // Save report
+            reports.push(report);
+            localStorage.setItem('safetyReports', JSON.stringify(reports));
+            localStorage.setItem('reportCounter', reportIdCounter.toString());
+            
+            // Clear form
+            this.reset();
+            
+            // Show success message
+            alert('🎉 Thank you! Your anonymous report has been submitted. Together, we can make our school safer!');
+        });
+
+        // Load trending issues
+        function loadTrends() {
+            const trendsContainer = document.getElementById('trendsContainer');
+            
+            if (reports.length === 0) {
+                trendsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <h3>🌟 Great News!</h3>
+                        <p>No major trends to report right now. Our school community is doing well!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Count categories
+            const categoryCount = {};
+            reports.forEach(report => {
+                categoryCount[report.category] = (categoryCount[report.category] || 0) + 1;
+            });
+            
+            // Sort by frequency
+            const sortedCategories = Object.entries(categoryCount)
+                .sort(([,a], [,b]) => b - a);
+            
+            let trendsHTML = '';
+            sortedCategories.forEach(([category, count]) => {
+                const trendClass = count >= 5 ? 'trend-high' : 
+                                 count >= 3 ? 'trend-medium' : 'trend-low';
+                
+                trendsHTML += `
+                    <div class="trend-item ${trendClass}">
+                        <span><strong>${category}</strong></span>
+                        <span>${count} report${count !== 1 ? 's' : ''}</span>
+                    </div>
+                `;
+            });
+            
+            trendsContainer.innerHTML = trendsHTML;
+        }
+
+        // Load admin data
+        function loadAdminData() {
+            if (currentRole === 'student') return;
+            
+            // Update stats
+            document.getElementById('totalReports').textContent = reports.length;
+            document.getElementById('urgentReports').textContent = 
+                reports.filter(r => r.severity === 'Urgent' || r.severity === 'High').length;
+            document.getElementById('resolvedReports').textContent = 
+                reports.filter(r => r.status === 'Resolved').length;
+            
+            // Load recent reports
+            const reportsContainer = document.getElementById('reportsContainer');
+            
+            if (reports.length === 0) {
+                reportsContainer.innerHTML = '<p>No reports submitted yet.</p>';
+                return;
+            }
+            
+            let reportsHTML = '';
+            reports.slice().reverse().slice(0, 10).forEach(report => {
+                const date = new Date(report.timestamp).toLocaleString();
+                
+                reportsHTML += `
+                    <div class="report-card">
+                        <h3>Report #${report.id} - ${report.category}</h3>
+                        <p><strong>Location:</strong> ${report.location}</p>
+                        <p><strong>Severity:</strong> ${report.severity}</p>
+                        <p><strong>Status:</strong> ${report.status}</p>
+                        <p><strong>Date:</strong> ${date}</p>
+                        <p><strong>Description:</strong> ${report.description}</p>
+                        <button onclick="updateStatus(${report.id})" style="margin-top: 10px; padding: 5px 15px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                            Update Status
+                        </button>
+                    </div>
+                `;
+            });
+            
+            reportsContainer.innerHTML = reportsHTML;
+        }
+
+        // Update report status
+        function updateStatus(reportId) {
+            const newStatus = prompt('Enter new status:', 'In Progress');
+            if (newStatus) {
+                const report = reports.find(r => r.id === reportId);
+                if (report) {
+                    report.status = newStatus;
+                    localStorage.setItem('safetyReports', JSON.stringify(reports));
+                    loadAdminData();
+                    alert('Status updated successfully!');
+                }
+            }
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Click first tab button to activate it
+            document.querySelector('.tab-button').click();
+        });
+    </script>
+</body>
+</html>
